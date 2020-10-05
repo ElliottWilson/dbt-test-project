@@ -46,7 +46,7 @@ SELECT orders.*,
        response_timestamp,
        score
 FROM orders 
-INNER JOIN status_time ON orders.order_id = status_time.order_id\
+INNER JOIN status_time ON orders.order_id = status_time.order_id
 -- Need to do this do get the most recent delighted survey after an order
 LEFT JOIN delighted ON orders.user_id = delighted.user_id
 AND (response_timestamp > created_timpstamp AND last_response_timestamp IS NULL)
