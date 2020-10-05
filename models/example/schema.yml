@@ -10,3 +10,14 @@ models:
             tests:
                 - unique
                 - not_null
+
+sources:
+  - name: fy
+    database: fy-project-291518
+    schema: fy_raw
+    tables:
+      - name: dim_delighted_survey_responses
+      - name: dim_delighted_users
+      - name: dim_reviews
+      - name: fct_order_status
+      - name: fct_orders
