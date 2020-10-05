@@ -33,8 +33,9 @@ SUM(number_of_netural) OVER (partition by date) AS total_number_of_netural_on_da
 SUM(number_of_promoters) OVER (partition by date) AS total_number_of_promoters_on_date,
 FROM 
 case_for_cat
-)
+),
 
+averages AS (
 SELECT DISTINCT
 date,
 responces_on_day,	
@@ -44,5 +45,16 @@ total_number_of_promoters_on_date,
 ((total_number_of_promoters_on_date - total_number_of_detractors_on_date) / responces_on_day) AS nps_on_date,
 AVG((total_number_of_promoters_on_date - total_number_of_detractors_on_date) / responces_on_day) OVER (PARTITION BY EXTRACT(WEEK FROM date))   AS nps_on_week,
 AVG((total_number_of_promoters_on_date - total_number_of_detractors_on_date) / responces_on_day) OVER (PARTITION BY EXTRACT(MONTH FROM date))  AS nps_on_month,
-FROM
-window_for_cat
+FROM window_for_cat
+)
+
+SELECT 
+date,
+responces_on_day,	
+total_number_of_detractors_on_date,	
+total_number_of_netural_on_date,	
+total_number_of_promoters_on_date,
+(nps_on_date * 100) AS nps_on_date,
+(nps_on_week * 100) AS nps_on_week,
+(nps_on_month * 100) AS nps_on_month,
+FROM averages
