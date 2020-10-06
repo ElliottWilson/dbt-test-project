@@ -44,7 +44,11 @@ SELECT orders.*,
        TIMESTAMP_DIFF(shipped_timestamp, created_timpstamp, HOUR)   AS hour_from_ordered_to_shipped,
        TIMESTAMP_DIFF(shipped_timestamp, created_timpstamp, DAY)    AS days_from_ordered_to_shipped,
        response_timestamp,
-       score
+       score,
+       CASE WHEN score <= 6 THEN 'Detractor'
+       WHEN score >= 7 AND score <=8  THEN 'Netural'
+       WHEN score >= 9  THEN 'Promoter'
+       END AS nps_catagory
 FROM orders 
 INNER JOIN status_time ON orders.order_id = status_time.order_id
 -- Need to do this do get the most recent delighted survey after an order
